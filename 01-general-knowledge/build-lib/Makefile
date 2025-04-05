@@ -10,7 +10,8 @@ LIB_STATIC_DIR := $(LIB_DIR)/static
 LIB_SHARED_DIR := $(LIB_DIR)/shared
 
 
-
+prepare_dirs:
+	mkdir -p $(BIN_DIR) $(OBJ_DIR) $(LIB_STATIC_DIR) $(LIB_SHARED_DIR)
 
 #create shared lib
 create_obj_shared: # flag -I: determine .h directory
@@ -24,8 +25,7 @@ link_shared_lib: # flag -L: thu muc chua cac thu vien ; flag -l: chi dinh thu vi
 	gcc  $(OBJ_DIR)/main.o -L$(LIB_SHARED_DIR) -lmymath -o $(BIN_DIR)/main-use-shared-library
 	
 all_shared: create_obj_shared create_shared_lib link_shared_lib
-	@echo "created shared bibrary"
-
+	@echo "created shared bibrary and linked executable."
 
 
 
@@ -41,8 +41,8 @@ link_static_lib: # flag -L: thu muc chua cac thu vien ; flag -l: chi dinh thu vi
 	gcc $(OBJ_DIR)/main.o -L$(LIB_STATIC_DIR) -lmymath -o $(BIN_DIR)/main-use-static-library
 
 all_static: create_obj_static create_static_lib link_static_lib
-	@echo "created static bibrary"
+	@echo "created static bibrary and linked executable."
 
 
 clean:
-	rm -rf $(BIN_DIR)/main-use-shared-library $(BIN_DIR)/main-use-static-library $(OBJ_DIR)/*.o $(LIB_SHARED_DIR)/libmymath.so $(LIB_STATIC_DIR)/libmymath.a
+	rm -rf $(BIN_DIR)/* $(OBJ_DIR)/*.o $(LIB_SHARED_DIR)/libmymath.so $(LIB_STATIC_DIR)/libmymath.a
