@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h>
+
+unsigned long int counter = 0;
+pthread_t tid1, tid2, tid3;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
+#define MAX_COUNTER 1000000
+
+
+void* thread_handler(void* arg)
+{
+    int id = *((int*) arg);
+    printf("Hi, i'm thread %d (TID: %ld)\n", id, pthread_self());
+    
+    for (int i = 0; i < MAX_COUNTER; i++)
+    {
+        pthread_mutex_lock(&lock);
+        counter++;
+        pthread_mutex_unlock(&lock);
+    }
+    
+    pthread_exit(NULL);
+}
+
+int main(int argc, char *argv[])
+{
+    printf("Main thread - PID: %ld\n\n", pthread_self());
+    
+    int arr_id[3] = {1, 2, 3};
+    pthread_create(&tid1, NULL, &thread_handler, &arr_id[0]);
+    pthread_create(&tid2, NULL, &thread_handler, &arr_id[1]);
+    pthread_create(&tid3, NULL, &thread_handler, &arr_id[2]);
+
+    pthread_join(tid1, NULL);
+    pthread_join(tid2, NULL);
+    pthread_join(tid3, NULL);
+    
+    pthread_mutex_destroy(&lock);
+    printf("\ncounter = %li\n", counter);
+
+    return 0;
+}
