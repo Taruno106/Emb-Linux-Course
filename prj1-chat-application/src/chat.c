@@ -53,7 +53,7 @@ void create_client(connection_t *conn)
         }
         else if (n == 0)
         {
-            printf("\n123The peer at port \033[1;35m%d\033[0m (id: %d) has \033[1;31mdisconnected\033[0m.\n",
+            printf("\nClient: The peer at port \033[1;35m%d\033[0m (id: %d) has \033[1;31mdisconnected\033[0m.\n",
                    server_port, id);
 
             int found = 0;
@@ -83,7 +83,7 @@ void create_client(connection_t *conn)
         }
         else
         {
-            perror("123read error");
+            perror("\nClient: read error\n");
             break;
         }
     }
