@@ -111,7 +111,7 @@ void do_cmd_send(char *cmd, char *action, char *id_str)
         if (id == conn_queue[i].id)
         {
             send(conn_queue[i].sockfd, msg, strlen(msg), 0);
-            printf("\nSend message \033[1;32mSuccessfully\033[0m.\n");
+            printf("\nSend message \033[1;32mSuccessfully\033[0m.\n\n");
         }
     }
 }
@@ -197,7 +197,7 @@ void handle_cmd()
         }
         else if (action && strcmp(action, "myport") == 0)
         {
-            printf("Listening port of this app: %s\n", portno);
+            printf("Listening port of this app: \033[1;35m%s\033[0m\n", portno);
         }
         else if (action && strcmp(action, "connect") == 0)
         {

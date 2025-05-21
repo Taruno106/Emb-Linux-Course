@@ -9,7 +9,7 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
-#define MAX_CONNECTION 100
+#define MAX_CONNECTION 1024
 
 // properties
 typedef struct {
