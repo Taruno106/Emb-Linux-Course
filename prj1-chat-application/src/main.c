@@ -14,13 +14,12 @@ void *client_thread(void *arg)
 {
     connection_t *conn = (connection_t *)arg;
     create_client(conn);
-    free(conn);
     return NULL;
 }
 
 void show_info_help()
 {
-    printf("********************************** Chat Application **********************************\n");
+    printf("================================== Chat Application ==================================\n");
     printf("\n");
     printf("Use the commands below:                                           \n");
     printf("  1. help                               : display user interface options   \n");
@@ -32,13 +31,14 @@ void show_info_help()
     printf("  7. send <connection id> <message>     : send a message to a connection \n");
     printf("  8. exit                               : close all connections & terminate this app \n");
     printf("\n");
-    printf("*************************************************************************************\n\n");
+    printf("=====================================================================================\n\n");
 }
 
 void list_connection()
 {
-    printf("*****************************************************\n");
+    printf("=============================================\n");
     printf("ID |       IP Address       |  Port No.  \n");
+    pthread_mutex_lock(&lock);
     for (int i = 0; i < conn_count; i++)
     {
         printf("%-2d |    \033[1;34m%-19s\033[0m |  \033[1;35m%-18d\033[0m\n",
@@ -46,7 +46,8 @@ void list_connection()
                conn_queue[i].ip,
                conn_queue[i].port);
     }
-    printf("*****************************************************\n");
+    pthread_mutex_unlock(&lock);
+    printf("=============================================\n");
 }
 
 void get_my_ip(char *ip_buffer, size_t buf_len)
@@ -104,7 +105,7 @@ void do_cmd_send(char *cmd, char *action, char *id_str)
     {
         msg = strstr(cmd + strlen(action) + strlen(id_str) + 2, "");
     }
-
+    pthread_mutex_lock(&lock);
     for (int i = 0; i < conn_count; i++)
     {
         // printf("conn_queue[%d] - id: %d - sockfd: %d\n", i, conn_queue[i].id, conn_queue[i].sockfd);
@@ -112,8 +113,10 @@ void do_cmd_send(char *cmd, char *action, char *id_str)
         {
             send(conn_queue[i].sockfd, msg, strlen(msg), 0);
             printf("\nSend message \033[1;32mSuccessfully\033[0m.\n\n");
+            break;
         }
     }
+    pthread_mutex_unlock(&lock);
 }
 
 void do_cmd_terminate(const char *id_str)
@@ -127,25 +130,26 @@ void do_cmd_terminate(const char *id_str)
     int id = atoi(id_str);
     int found = 0;
 
+    pthread_mutex_lock(&lock);
     for (int i = 0; i < conn_count; i++)
     {
         if (id == conn_queue[i].id)
         {
+            shutdown(conn_queue[i].sockfd, SHUT_RDWR);
             close(conn_queue[i].sockfd);
             printf("Closed connection with ID: %d\n", id);
 
-            // delete the found element of conn_queue and move these rest elements to left 
-            pthread_mutex_lock(&lock);
+            // delete the found element of conn_queue and move these rest elements to left
             for (int j = i; j < conn_count - 1; j++)
             {
                 conn_queue[j] = conn_queue[j + 1];
             }
             conn_count--;
-            pthread_mutex_unlock(&lock);
             found = 1;
             break;
         }
     }
+    pthread_mutex_unlock(&lock);
 
     if (!found)
     {
@@ -156,8 +160,10 @@ void do_cmd_terminate(const char *id_str)
 void do_cmd_exit()
 {
     printf("Closing all connections...\n");
+    pthread_mutex_lock(&lock);
     for (int i = 0; i < conn_count; i++)
     {
+        shutdown(conn_queue[i].sockfd, SHUT_RDWR);
         close(conn_queue[i].sockfd);
         printf("Closed ID: %d (%s:%d)\n",
                i,
@@ -166,6 +172,7 @@ void do_cmd_exit()
     }
 
     conn_count = 0;
+    pthread_mutex_unlock(&lock);
 
     printf("Exiting application.\n");
     exit(0);

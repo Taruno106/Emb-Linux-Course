@@ -55,8 +55,9 @@ void create_client(connection_t *conn)
         {
             printf("\n123The peer at port \033[1;35m%d\033[0m (id: %d) has \033[1;31mdisconnected\033[0m.\n",
                    server_port, id);
-            int found = 0;
 
+            int found = 0;
+            pthread_mutex_lock(&lock);
             for (int i = 0; i < conn_count; i++)
             {
                 if (id == conn_queue[i].id)
@@ -64,17 +65,16 @@ void create_client(connection_t *conn)
                     close(conn_queue[i].sockfd);
 
                     // delete the found element of conn_queue and move these rest elements to left
-                    pthread_mutex_lock(&lock);
                     for (int j = i; j < conn_count - 1; j++)
                     {
                         conn_queue[j] = conn_queue[j + 1];
                     }
                     conn_count--;
-                    pthread_mutex_unlock(&lock);
                     found = 1;
                     break;
                 }
             }
+            pthread_mutex_unlock(&lock);
 
             if (!found)
             {
@@ -83,9 +83,12 @@ void create_client(connection_t *conn)
         }
         else
         {
-            perror("read error");
+            perror("123read error");
+            break;
         }
     }
+
+    free(conn);
 }
 
 void create_server(const char *port)
@@ -177,7 +180,7 @@ void create_server(const char *port)
 
                         conn_queue[conn_count++] = conn;
 
-                        printf("Accepted connection from \033[1;34m%s\033[0m:\033[1;35m%d\033[0m (sockfd: %d, id: %d)\n",
+                        printf("\nAccepted connection from \033[1;34m%s\033[0m:\033[1;35m%d\033[0m\n",
                                conn.ip, conn.port, conn.sockfd, conn.id);
                     }
                     else
