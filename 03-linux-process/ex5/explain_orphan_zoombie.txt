@@ -1,0 +1,15 @@
+zoombie là cho con kết thúc bằng exit nhưng cha k gọi wait để nhận giá trị con gửi về. 
+orphan thì cha kết thúc trước con, khi đó thì thằng ông nội (init, systemd) 
+sẽ nhận nuôi.
+
+
+Zombie (tiến trình ma):
+→ Là tiến trình con đã kết thúc (exit)
+→ Nhưng tiến trình cha chưa gọi wait() để thu nhận exit status
+→ Do đó nó vẫn nằm trong bảng tiến trình với trạng thái Z.
+→ Con đã chết nhưng chưa được "chôn", nên bị treo lơ lửng dưới dạng zombie
+
+Orphan (tiến trình mồ côi):
+→ Là tiến trình con vẫn đang chạy, nhưng cha đã kết thúc
+→ Lúc này, tiến trình con được init hoặc systemd (PID 1) nhận nuôi
+
