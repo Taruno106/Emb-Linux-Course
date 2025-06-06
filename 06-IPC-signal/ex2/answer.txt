@@ -1,0 +1,35 @@
+## `alarm()` trong Linux
+
+### Khai báo
+#include <unistd.h>
+
+unsigned int alarm(unsigned int seconds);
+
+
+Giá trị trả về
+Nếu trước đó đã có một cuộc gọi alarm() mà chưa được xử lý (tức là bộ đếm vẫn đang 
+chạy), hàm sẽ trả về số giây còn lại của bộ đếm đó.
+
+Nếu không, trả về 0.
+
+Mô tả
+Sau 'seconds' giây, hệ thống sẽ gửi tín hiệu SIGALRM cho tiến trình hiện tại.
+--> tức là nó sẽ tự động emit signal SIGALRM sau 'seconds' giây và cần viết hàm handler
+để catch signal SIGALRM.
+
+Nếu tiến trình không xử lý tín hiệu đó (bằng signal() hoặc sigaction()), 
+mặc định nó sẽ bị kết thúc (terminated).
+
+
+* Hàm alarm(1) không làm chương trình “đợi” 1 giây. Nó chỉ thiết lập một bộ đếm 
+thời gian để sau 1 giây, hệ thống sẽ gửi tín hiệu SIGALRM đến tiến trình. 
+Sau khi chạy đến hàm alarm(1) thì nó sẽ chạy tiếp dòng tiếp theo và khi nào xong 1s 
+thì mới có tín hiệu SIGALRM đc bắn ra. Muốn chương trình đợi cho đến khi có SIGALRM 
+thì dùng pause() hoặc sleep() á. *
+
+
+
+
+
+// answer
+nếu k gọi thì nó sẽ chỉ chạy 1 lần (tức là xong 1s) là sẽ thoát chương trình.
