@@ -16,8 +16,8 @@ This document summarizes the testing process of builds image Yocto (devtool, pac
 
 ---
 
-## Build successfully image yocto for raspberry pi 4 64 bit
+## Build successfully image yocto for raspberry pi 4 (64-bit)
 
 ![Image yocto for rsp](./images/image_rsp_yocto.jpg)
 
-[Not yet test on real device (raspberry pi 4)]
+> ⚠️ *Not yet tested on real device (Raspberry Pi 4)*
