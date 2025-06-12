@@ -1,9 +1,3 @@
-/*
-    Bài tập: Tạo một character device file và một app ở userspace.
-    App ghi "on" thì dưới kernel in ra chuỗi "turn led on",
-    ghi "off" thì dưới kernel in ra chuỗi "turn led off"
-*/
-
 #include <linux/cdev.h>    /* Define cdev_init(), cdev_add() */
 #include <linux/device.h>  /* Define device_create(), class_create() */
 #include <linux/fs.h>      /* Define alloc_chrdev_region(), register_chrdev_region() */
