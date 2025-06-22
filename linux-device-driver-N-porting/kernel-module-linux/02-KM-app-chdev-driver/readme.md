@@ -1,9 +1,9 @@
-# Exercise 1
+# Bài tập 1
 
 Tạo một character device file và một ứng dụng ở userspace.
 
-* Khi ứng dụng ghi "on" vào device file, kernel sẽ in ra "Turn LED on".
-* Khi ghi "off", kernel sẽ in ra "Turn LED off".
+* Khi ứng dụng App (tầng userspace) ghi "on" vào device file, kernel sẽ in ra "Turn LED on".
+* Khi App ghi "off", kernel sẽ in ra "Turn LED off".
 
 ---
 
@@ -14,14 +14,14 @@ Tạo một character device file và một ứng dụng ở userspace.
 1. Build kernel module:
 
    ```sh
-   cd linux-device-driver-N-porting/ex1/kernelspace
+   cd linux-device-driver-N-porting/kernel-module-linux/02-KM-app-chdev-driver/kernelspace
    make
    ```
 2. Insert and remove module:
 
    ```sh
-   sudo insmod exam.ko       # Insert module into the kernel
-   sudo rmmod exam           # Remove module from the kernel
+   sudo insmod character-device-driver.ko       # Insert module into the kernel
+   sudo rmmod character-device-driver           # Remove module from the kernel
    sudo dmesg -w             # View kernel logs
    ```
 
@@ -30,7 +30,7 @@ Tạo một character device file và một ứng dụng ở userspace.
 1. Build the user application:
 
    ```sh
-   cd linux-device-driver-N-porting/ex1/userspace
+   cd linux-device-driver-N-porting/kernel-module-linux/02-KM-app-chdev-driver/userspace
    make
    ```
 2. Run the application:
