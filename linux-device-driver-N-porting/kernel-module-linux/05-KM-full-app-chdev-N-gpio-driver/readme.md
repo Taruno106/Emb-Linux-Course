@@ -23,7 +23,9 @@ Tạo một character device file và một ứng dụng ở userspace.
 ### full flow code của bt 3:
 
 userspace <-(1)-> kernelspace <-(2)-> hardware
+
 (1) character device file (bài 02)
+
 (2) gpio driver (bài 03 hoặc 04)
 
 Tầng kernelspace là sự kết hợp của 02-KM-app-chdev-driver và 03-KM-legacy-gpio-driver 
