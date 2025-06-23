@@ -1,37 +1,54 @@
-#include <linux/module.h>   /* Defines functions such as module_init/module_exit */
-#include <linux/gpio.h>     /* Defines functions such as gpio_request/gpio_free */     
-
-#define GPIO0_30            30
-
-#define LOW                 0
-#define HIGH                1
+#include <linux/module.h>           /* Defines functions such as module_init/module_exit */
+#include <linux/gpio.h>             /* Defines functions such as gpio_request/gpio_free */
+#include <linux/platform_device.h>  /* For platform devices */
+#include <linux/gpio/consumer.h>    /* For GPIO Descriptor */
+#include <linux/of.h>               /* For DT */  
 
 #define DRIVER_AUTHOR "phonglt15 p.linuxfromscratch@gmail.com"
 #define DRIVER_DESC   "gpio subsystem"
 
-/* Constructor */
-static int __init gpio_init(void)
-{
-    gpio_request(GPIO0_30, "gpio0_30");
-    gpio_direction_output(GPIO0_30, LOW);
-    gpio_set_value(GPIO0_30, HIGH);
+#define LOW     0
+#define HIGH    1
 
-    pr_info("Hello! gpio status: %d!\n", gpio_get_value(GPIO0_30));
+struct gpio_desc *gpio0_30;
+
+static const struct of_device_id gpiod_dt_ids[] = {
+    { .compatible = "gpio-descriptor-based", },
+    { /* sentinel */ }
+};
+
+static int my_pdrv_probe(struct platform_device *pdev)
+{
+    struct device *dev = &pdev->dev;
+    gpio0_30 = gpiod_get(dev, "led30", GPIOD_OUT_LOW);
+    gpiod_set_value(gpio0_30, HIGH);
+
+    pr_info("%s - %d", __func__, __LINE__);
     return 0;
 }
 
-/* Destructor */
-static void __exit gpio_exit(void)
+static int my_pdrv_remove(struct platform_device *pdev)
 {
-    gpio_set_value(GPIO0_30, LOW);
-    gpio_free(GPIO0_30);
-    pr_info("Good bye my fen !!!\n");
+    gpiod_set_value(gpio0_30, LOW);
+    gpiod_put(gpio0_30);
+
+    pr_info("%s - %d", __func__, __LINE__);
+    return 0;
 }
 
-module_init(gpio_init);
-module_exit(gpio_exit);
+/* platform driver */
+static struct platform_driver mypdrv = {
+    .probe = my_pdrv_probe,
+    .remove = my_pdrv_remove,
+    .driver = {
+        .name = "descriptor-based",
+        .of_match_table = of_match_ptr(gpiod_dt_ids),
+        .owner = THIS_MODULE,
+    },
+};
+module_platform_driver(mypdrv);
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR(DRIVER_AUTHOR);
-MODULE_DESCRIPTION(DRIVER_DESC); 
-MODULE_VERSION("1.0"); 
+MODULE_DESCRIPTION(DRIVER_DESC);
+MODULE_VERSION("1.0");
