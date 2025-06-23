@@ -7,6 +7,7 @@ Tạo một character device file và một ứng dụng ở userspace.
 
 ---
 
+```shell
 ### 05-KM-full-app-chdev-N-gpio-driver
 ├── kernelspace
 │   ├── full-app-chdev-N-gpio.c
@@ -15,6 +16,7 @@ Tạo một character device file và một ứng dụng ở userspace.
 └── userspace
     ├── App.c
     └── Makefile
+```
 
 ---
 

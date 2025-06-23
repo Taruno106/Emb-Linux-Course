@@ -7,6 +7,7 @@ Tạo một character device file và một ứng dụng ở userspace.
 
 ---
 
+```shell
 ### kernel-module-yocto
 ├── kernelspace
 │   ├── gpiolegacy.c
@@ -15,6 +16,7 @@ Tạo một character device file và một ứng dụng ở userspace.
 └── userspace
     ├── app-chdev.c
     └── Makefile
+```
 
 ---
 

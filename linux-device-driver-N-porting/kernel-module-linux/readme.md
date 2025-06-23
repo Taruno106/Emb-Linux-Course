@@ -19,18 +19,19 @@ This repository contains hands-on exercises on writing, inserting/removing Linux
 Tạo một character device file và một ứng dụng ở userspace.
 * Khi ứng dụng App (tầng userspace) ghi "on" vào device file, kernel sẽ in ra "Turn LED on".
 * Khi App ghi "off", kernel sẽ in ra "Turn LED off".
-Giải ở 02-KM-app-chdev-driver
+`Giải ở 02-KM-app-chdev-driver`
 
 
-### Bài tập 2: Cấu hình điều chân GPIO27 của RPI 4 64bit thông qua việc truy cập vào các thanh ghi. 
-Giải ở 03-KM-legacy-gpio-driver (đọc/ghi thanh ghi) hoặc 04-KM-subsystem-gpio-driver (dùng subsystem)
+### Bài tập 2: 
+Cấu hình điều chân GPIO27 của RPI 4 64bit thông qua việc truy cập vào các thanh ghi. 
+`Giải ở 03-KM-legacy-gpio-driver (đọc/ghi thanh ghi) hoặc 04-KM-subsystem-gpio-driver (dùng subsystem)`
 
 
 ### Bài tập 3:
 Tạo một character device file và một ứng dụng ở userspace.
 * Khi ứng dụng App (tầng userspace) ghi "on" vào device file, kernel sẽ in ra "Turn LED on" và cấu hình GPIO27 lên mức high.
 * Khi App ghi "off", kernel sẽ in ra "Turn LED off" và cấu hình GPIO27 xuống mức low.
-Giải ở 05-KM-full-app-chdev-N-gpio-driver
+`Giải ở 05-KM-full-app-chdev-N-gpio-driver`
 
 ---
 
