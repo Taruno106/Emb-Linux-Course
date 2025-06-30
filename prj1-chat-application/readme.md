@@ -48,6 +48,8 @@ Ví dụ:
 | `send <connection_id> <message>` | Gửi tin nhắn đến peer                         |
 | `exit`                           | Đóng tất cả kết nối và thoát chương trình     |
 
+---
+
 ## 🎬 Video demo
 
 [▶️ Xem video demo](https://youtu.be/-Kl-7nswT-4)
