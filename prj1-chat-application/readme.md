@@ -50,7 +50,9 @@ Ví dụ:
 
 ## 🎬 Video demo
 
-[▶️ Xem video demo](https://youtu.be/Qo96WOx3xU8)
+[▶️ Xem video demo](https://youtu.be/-Kl-7nswT-4)
+
+---
 
 ## 📄 Documents
 
